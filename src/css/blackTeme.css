@@ -1,0 +1,156 @@
+/* General Container */
+body {
+    background-color: #121212; /* Fondo oscuro para toda la página */
+    color: #e0e0e0; /* Texto claro para buena legibilidad */
+}
+
+.dashboard-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #ffffff; /* Título en blanco */
+}
+
+p {
+    font-size: 16px;
+    color: #b0b0b0; /* Texto de párrafo más tenue */
+}
+
+/* Top Navigation */
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #1f1f1f; /* Fondo del menú oscuro */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff; /* Logo en blanco */
+}
+
+.menu {
+    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+.menu li {
+    margin-left: 20px;
+}
+
+.menu li a {
+    text-decoration: none;
+    color: #b0b0b0; /* Texto de menú más tenue */
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.menu li a:hover {
+    color: #ffffff; /* Texto blanco al pasar el ratón */
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+}
+
+.user-icon {
+    font-size: 20px;
+    background-color: #333333; /* Fondo del ícono de usuario oscuro */
+    padding: 10px;
+    border-radius: 50%;
+    color: #ffffff; /* Ícono de usuario blanco */
+}
+
+/* Search Container */
+.search-container {
+    margin: 20px 0;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #444444; /* Borde gris oscuro */
+    font-size: 16px;
+    background-color: #333333; /* Fondo del input oscuro */
+    color: #e0e0e0; /* Texto claro dentro del input */
+}
+
+.search-input::placeholder {
+    color: #888888; /* Placeholder gris claro */
+}
+
+/* Table */
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.custom-table th,
+.custom-table td {
+    border: 1px solid #444444; /* Bordes de la tabla oscuros */
+    padding: 12px;
+    text-align: left;
+    color: #e0e0e0; /* Texto claro en las celdas */
+}
+
+.custom-table th {
+    background-color: #1f1f1f; /* Fondo oscuro para los encabezados */
+}
+
+.custom-table tbody tr {
+    background-color: #1a1a1a; /* Fondo oscuro para las filas */
+}
+
+.custom-table tbody tr:hover {
+    background-color: #333333; /* Fila resaltada con fondo más claro */
+}
+
+/* Badge */
+.badge {
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    color: white; /* Texto blanco en los badges */
+}
+
+.primary {
+    background-color: #007bff; /* Color azul para Primary */
+}
+
+.secondary {
+    background-color: #6c757d; /* Color gris para Secondary */
+}
+
+.tertiary {
+    background-color: #28a745; /* Color verde para Tertiary */
+}
+
+a {
+    color: #007bff; /* Enlaces en azul */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Ajustes adicionales */
+.dashboard-container {
+    background-color: #1f1f1f; /* Fondo oscuro para el contenedor principal */
+    border-radius: 8px;
+    padding: 20px;
+}
