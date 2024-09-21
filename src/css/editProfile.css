@@ -1,0 +1,85 @@
+.edit-profile {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa; /* Fondo blanco suave */
+    border-radius: 8px;
+    color: #212529; /* Color de texto oscuro */
+}
+
+.edit-profile h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.edit-profile p {
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: #6c757d; /* Texto de descripción en gris */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+input {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ced4da; /* Borde gris claro */
+    border-radius: 4px;
+    background-color: #e9ecef; /* Fondo gris claro */
+    color: #495057; /* Color de texto oscuro */
+}
+
+input:focus {
+    outline: none;
+    border-color: #80bdff; /* Borde azul en enfoque */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Sombra de enfoque */
+}
+
+.inline-inputs {
+    display: flex;
+    justify-content: space-between;
+}
+
+.inline-inputs div {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.inline-inputs div:last-child {
+    margin-right: 0;
+}
+
+button {
+    background-color: #007bff; /* Fondo azul */
+    color: #fff; /* Texto blanco */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3; /* Color azul más oscuro en hover */
+}
+
+fieldset {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ced4da; /* Borde gris claro */
+    border-radius: 4px;
+}
+
+legend {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #212529; /* Color de texto del título */
+}

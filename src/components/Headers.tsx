@@ -33,6 +33,8 @@ export const HeaderPage: React.FC = () => {
     const handleEditProfile = () => {
         // Aquí podrías agregar la lógica para redirigir a la edición de perfil
         console.log('Editar perfil');
+        return navigate('/editProfile');
+
     };
 
     return (
@@ -40,7 +42,7 @@ export const HeaderPage: React.FC = () => {
          * Top Navigation Menu
          */
         <header className="top-nav">
-            <div className="logo">TechFix Tracker Seguimiento de Reparaciones</div>
+            <div className="logo">TechFix Tracker Gestiona tus Reparaciones</div>
             <nav>
                 <ul className="menu">
                     <li>
@@ -68,7 +70,7 @@ export const HeaderPage: React.FC = () => {
                         <a href="#model">Model</a>
                     </li>
                     <li>
-                        <a href="#docs">Docs</a>
+                        <a href="#docs">Contáctanos</a>
                     </li>
                 </ul>
             </nav>

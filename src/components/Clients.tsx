@@ -29,21 +29,21 @@ const Clients: React.FC = () => {
             <HeaderPage/>
             <br></br>
             <div className="dashboard-container">
-                <h2>Patients</h2>
-                <p>1,234 Patients</p>
+                <h2>Clientes</h2>
+                <p>1,234 Clientes</p>
 
                 {/* Search Input */}
                 <div className="search-container">
-                    <input type="text" placeholder="🔍 Search patients" className="search-input" />
+                    <input type="text" placeholder="🔍 Buscar cliente" className="search-input" />
                 </div>
 
                 {/* Table */}
                 <table className="custom-table">
                     <thead>
                         <tr>
-                            <th>Name</th>
                             <th>ID</th>
-                            <th>Type</th>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
                             <th>Insurance Code</th>
                             <th>Flag</th>
                         </tr>
@@ -51,8 +51,8 @@ const Clients: React.FC = () => {
                     <tbody>
                         {patients.map((patient) => (
                             <tr key={patient.id}>
-                                <td>{patient.name}</td>
                                 <td>{patient.id}</td>
+                                <td>{patient.name}</td>
                                 <td>
                                     <span className={`badge ${patient.type.toLowerCase()}`}>{patient.type}</span>
                                 </td>

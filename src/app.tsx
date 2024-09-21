@@ -4,6 +4,7 @@ import Login from './components/Login';
 import JobsPage from './components/Home';
 import Clients from './components/Clients';
 import AddDevice from './components/AddDeviceForm';
+import EditProfile from './components/editProfile';
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <Route path="/addDevice" element={<AddDevice />} />
       <Route path="/clients" element={<Clients />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/editProfile" element={<EditProfile />} />
     </Routes>
   );
 };

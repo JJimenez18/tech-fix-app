@@ -24,34 +24,34 @@ const JobsDashboard: React.FC = () => {
             <HeaderPage />
             <br></br>
             <div className="dashboard-container">
-                <h2>Jobs</h2>
-                <p>View and manage your jobs</p>
+                <h2>Ordenes de trabajo</h2>
+                <p>Revisa y administra las ordenes de trabajo</p>
 
                 {/* Search Input */}
                 <div className="search-container">
-                    <input type="text" placeholder="🔍 Search patients" className="search-input" />
+                    <input type="text" placeholder="🔍 Buscar Orden" className="search-input" />
                 </div>
 
                 {/* Navigation tabs */}
                 <ul className="tabs">
-                    <li className="tab active">Pending</li>
-                    <li className="tab">Running</li>
-                    <li className="tab">Succeeded</li>
-                    <li className="tab">Failed</li>
-                    <li className="tab">Canceled</li>
-                    <li className="tab">All</li>
+                    <li className="tab active">Pendiente</li>
+                    <li className="tab">En revision</li>
+                    <li className="tab">Completada</li>
+                    <li className="tab">Diagnosticada</li>
+                    <li className="tab">Cancelada</li>
+                    <li className="tab">todo</li>
                 </ul>
 
                 {/* Table */}
                 <table className="custom-table">
                     <thead>
                         <tr>
-                            <th>Job ID</th>
-                            <th>Name</th>
-                            <th>Status</th>
-                            <th>Progress</th>
-                            <th>Created At</th>
-                            <th>Action</th>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Estado</th>
+                            <th>Proceso</th>
+                            <th>Creado por</th>
+                            <th>Modifica</th>
                         </tr>
                     </thead>
                     <tbody>
