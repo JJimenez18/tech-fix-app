@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import '../css/formStyles.css';
+import {ejecutaPeticion} from '../services/api.services';
 
 interface LoginProps {
     onLogin: (email: string, password: string) => void;
@@ -9,13 +10,35 @@ interface LoginProps {
 const Login: React.FC<LoginProps> = ({onLogin}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState<string | null>(null);
     // const [darkMode, setDarkMode] = useState(false);
     const navigate = useNavigate();
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        onLogin(email, password);
+        // onLogin(email, password);
+        const {data, message, statusCode} = await ejecutaPeticion<{token: string}>({url: ''});
+        if (statusCode === 200) {
+            // Almacenar el token o cualquier otra información importante
+            localStorage.setItem('token', data.token);
+            onLogin(email, password);
+            // Redirigir a la página principal
+            navigate('/dashboard');
+        } else {
+            setError(message || 'Failed to login');
+        }
     };
+
+    /* useEffect(() => {
+        ejecutaPeticion({url: ''})
+        .then((resp) => {
+            console.log('resp', resp);
+            if(resp.statusCode === 200){
+                return navigate('/home');
+            }
+        })
+        .catch();
+    }); */
 
     /* const toggleDarkMode = () => {
         setDarkMode(!darkMode);
@@ -36,7 +59,7 @@ const Login: React.FC<LoginProps> = ({onLogin}) => {
         >
             <div className="row w-100 justify-content-center">
                 <div className="col-md-5">
-                    <div className='card bg-white'>
+                    <div className="card bg-white">
                         <div className="card-body">
                             <div className="text-center mb-4">
                                 <img
@@ -46,6 +69,7 @@ const Login: React.FC<LoginProps> = ({onLogin}) => {
                                 />
                             </div>
                             <h3 className="text-center mb-3">Tech-Fix</h3>
+                            {error && <div className="alert alert-danger">{error}</div>}
                             <form onSubmit={handleSubmit}>
                                 <div className="form-group mb-3">
                                     <label htmlFor="email">Correo electrónico</label>
@@ -81,13 +105,12 @@ const Login: React.FC<LoginProps> = ({onLogin}) => {
                                 </center>
                             </form>
                             <div className="text-center mt-3">
-                              <br></br>
+                                <br></br>
                                 <a href="#">¿Olvidaste tu constraseña?</a>
                             </div>
                             <div className="text-center mt-2">
                                 <p>
-                                    No tienes cuenta{' '}
-                                    <br></br>
+                                    No tienes cuenta <br></br>
                                     <button className="btn btn-link" onClick={redirectToPage}>
                                         Registrate
                                     </button>

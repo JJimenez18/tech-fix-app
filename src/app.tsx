@@ -4,7 +4,7 @@ import Login from './components/Login';
 import JobsPage from './components/Home';
 import Clients from './components/Clients';
 import AddDevice from './components/AddDeviceForm';
-import EditProfile from './components/editProfile';
+import EditProfile from './components/EditProfile';
 
 const App = () => {
   return (
