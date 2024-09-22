@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import '../css/HomePage.css';
 import {HeaderPage} from './Headers';
+import {useNavigate} from 'react-router-dom';
+import {ejecutaPeticion} from '../services/api.services';
+import AuthError from './AuthError';
 
 interface Job {
     id: number;
@@ -19,6 +22,52 @@ const jobs: Job[] = [
 ];
 
 const JobsDashboard: React.FC = () => {
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    const [hasError, setHasError] = useState<boolean>(false); // Estado para manejar el error
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setHasError(true); // Marca el error si no hay token
+            return;
+        }
+
+        const validateToken = async () => {
+            const {statusCode} = await ejecutaPeticion({
+                metodo: 'post',
+                url: 'http://localhost:8888/microservices/techfix-tracker/v1/oauth2/verifica/token',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (statusCode === 200) {
+                setIsAuthenticated(true); // Si el token es válido, actualizar el estado
+            } else {
+                localStorage.removeItem('token'); // Token inválido, manejar el error
+                setHasError(true);
+                // navigate('/'); // Redirigir si el token es inválido
+                return <AuthError />;
+            }
+        };
+        // Validar el token inmediatamente
+        validateToken();
+
+        // Configurar el intervalo para validar cada minuto
+        const intervalId = setInterval(() => {
+            validateToken();
+        }, 60000); // 60000 ms = 1 minuto
+
+        // Limpiar el intervalo al desmontar el componente
+        return () => clearInterval(intervalId);
+    }, [navigate]);
+
+    if (hasError || !isAuthenticated) {
+        return <AuthError />;
+    }
+
     return (
         <div>
             <HeaderPage />

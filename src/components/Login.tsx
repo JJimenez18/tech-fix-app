@@ -16,16 +16,22 @@ const Login: React.FC<LoginProps> = ({onLogin}) => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // onLogin(email, password);
-        const {data, message, statusCode} = await ejecutaPeticion<{token: string}>({url: ''});
+        const basicAuthToken = btoa(`${email}:${password}`);
+        const {data, statusCode} = await ejecutaPeticion<{token: string}>({
+            url: 'http://localhost:8888/microservices/techfix-tracker/v1/oauth2/v1/token',
+            metodo: 'post',
+            headers: {
+                'Authorization': `Basic ${basicAuthToken}`
+            }
+        });
         if (statusCode === 200) {
-            // Almacenar el token o cualquier otra información importante
             localStorage.setItem('token', data.token);
             onLogin(email, password);
-            // Redirigir a la página principal
-            navigate('/dashboard');
+            navigate('/home');
         } else {
-            setError(message || 'Failed to login');
+            // setEmail('');
+            // setPassword('');
+            setError('Credenciales invalidas, favor de validar.');
         }
     };
 
@@ -92,6 +98,7 @@ const Login: React.FC<LoginProps> = ({onLogin}) => {
                                         className="form-control"
                                         id="password"
                                         placeholder="constraseña1234"
+                                        min={8}
                                         value={password}
                                         onChange={(event) => setPassword(event.target.value)}
                                         required

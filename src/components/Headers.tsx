@@ -26,6 +26,7 @@ export const HeaderPage: React.FC = () => {
     // Función para cerrar sesión
     const handleLogout = () => {
         // Aquí podrías agregar la lógica para cerrar sesión
+        localStorage.removeItem('token');
         return navigate('/');
     };
 

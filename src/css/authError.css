@@ -1,0 +1,34 @@
+.auth-error-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8d7da;
+    color: #721c24;
+    font-family: Arial, sans-serif;
+}
+
+.auth-error-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.auth-error-message {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.auth-error-button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #721c24;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.auth-error-button:hover {
+    background-color: #9b2c32;
+}
