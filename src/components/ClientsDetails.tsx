@@ -2,11 +2,10 @@ import React, {useEffect, useState} from 'react';
 import '../css/HomePage.css';
 import {HeaderPage} from './Headers';
 import {useNavigate} from 'react-router-dom';
+import {ejecutaPeticion} from '../services/api.services';
 import AuthError from './AuthError';
-import {IConsultaDispositivosGET} from '../models/device';
-import {validaToken} from '../services/security.services';
-import Footer from './Footer';
-import { consultaDispositivos } from '../services/device.services';
+import {deviceResponseGET, IConsultaDispositivosGET} from '../models/device';
+import { validaToken } from '../services/security.services';
 
 const JobsDashboard: React.FC = () => {
     const navigate = useNavigate();
@@ -14,7 +13,6 @@ const JobsDashboard: React.FC = () => {
     const [hasError, setHasError] = useState<boolean>(false); // Estado para manejar el error
     const [devices, setDevices] = useState<IConsultaDispositivosGET[]>([]);
     const [isLoading, setIsLoading] = useState(true); // Estado de carga
-    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -30,7 +28,13 @@ const JobsDashboard: React.FC = () => {
                     const {
                         statusCode,
                         data: {devices},
-                    } = await consultaDispositivos(token)
+                    } = await ejecutaPeticion<deviceResponseGET>({
+                        metodo: 'get',
+                        url: 'http://localhost:8888/microservices/techfix-tracker/v1/devices',
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
 
                     if (statusCode === 200) {
                         console.log(devices);
@@ -66,39 +70,17 @@ const JobsDashboard: React.FC = () => {
         return <AuthError />;
     }
 
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(e.target.value);
-    };
-
-    /**
-     * Agregar funcionalidad para buscar en el servico
-     * esto si el filter no tiene informacion
-     */
-
-    const filteredDevices = devices.filter(
-        (job) =>
-            job.modelo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            job.descripcionFalla.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            job.nombreUsuario.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
     return (
         <div>
             <HeaderPage />
             <br></br>
-            <div className="dashboard-container" style={{width: '1000px'}}>
+            <div className="dashboard-container"  style={{width: '1000px'}}>
                 <h2>Ordenes de trabajo</h2>
                 <p>Revisa y administra las ordenes de trabajo</p>
 
                 {/* Search Input */}
                 <div className="search-container">
-                    <input
-                        type="text"
-                        placeholder="🔍 Buscar Orden"
-                        className="search-input"
-                        value={searchTerm}
-                        onChange={handleSearchChange}
-                    />
+                    <input type="text" placeholder="🔍 Buscar Orden" className="search-input" />
                 </div>
 
                 {/* Navigation tabs */}
@@ -125,47 +107,40 @@ const JobsDashboard: React.FC = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredDevices.length > 0 ? (
-                            filteredDevices.map((job) => (
-                                <tr key={job.idDispositivo}>
-                                    <td>
-                                        <a href={`#job/${job.idDispositivo}`}>#{job.idDispositivo}</a>
-                                    </td>
-                                    <td>{job.idTipoDispositivo}</td>
-                                    <td>
-                                        {job.modelo}
-                                        {/* <span
+                        {devices.map((job) => (
+                            <tr key={job.idDispositivo}>
+                                <td>
+                                    <a href={`#job/${job.idDispositivo}`}>#{job.idDispositivo}</a>
+                                </td>
+                                <td>{job.idTipoDispositivo}</td>
+                                <td>
+                                    {job.modelo}
+                                    {/* <span
                                         className={`badge ${job.idDispositivo === 'In Progress' ? 'badge-in-progress' : ''}`}
                                     >
                                         {job.modelo}
                                     </span> */}
-                                    </td>
-                                    <td>
-                                        {/* <div className="progress">
+                                </td>
+                                <td>
+                                    {/* <div className="progress">
                                         <div className="progress-bar" style={{width: `${job.progress}%`}}>
                                             {job.progress}%
                                         </div>
                                     </div> */}
-                                        {job.serie}
-                                    </td>
-                                    <td>{job.descripcionFalla}</td>
-                                    <td>{job.nombreUsuario}</td>
-                                    <td>{job.fechaRegistro}</td>
-                                    <td>{job.idEstatusDispositivo}</td>
-                                    {/* <td>
+                                    {job.serie}
+                                </td>
+                                <td>{job.descripcionFalla}</td>
+                                <td>{job.nombreUsuario}</td>
+                                <td>{job.fechaRegistro}</td>
+                                <td>{job.idEstatusDispositivo}</td>
+                                {/* <td>
                                     <button className="btn">Pause</button>
                                 </td> */}
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan={8}>No se encontraron resultados</td>
                             </tr>
-                        )}
+                        ))}
                     </tbody>
                 </table>
             </div>
-            <Footer />
         </div>
     );
 };

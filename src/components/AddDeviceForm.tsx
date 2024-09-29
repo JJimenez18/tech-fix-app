@@ -1,23 +1,103 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../css/addDevice.css';
 import {HeaderPage} from './Headers';
+import AuthError from './AuthError';
+import {clientsGET, ITiposDispositivosGET} from '../models/clients';
+import {useNavigate} from 'react-router-dom';
+import {consultaClientes, consultaTiposDispositivos} from '../services/clients.services';
+import {validaToken} from '../services/security.services';
+import {altaDispositivos} from '../services/device.services';
+import {IAltaDispositivoI} from '../models/device';
+import Footer from './Footer';
 
 const AddDevice: React.FC = () => {
-    const [formData, setFormData] = useState({
-        marca: 'Lenovo',
-        modelo: 'Legion Y540',
-        año: '2019',
-        sistemaOperativo: 'Windows 10',
-        descripcion: 'Problema con la pantalla',
-        nombreCliente: 'Pedro Alvarez',
-        correo: 'pedro.alvarez@gmail.com',
-        telefono: '+52',
-        celular: '55 1234 5678',
+    const navigate = useNavigate();
+    const [clientes, setClientes] = useState<clientsGET[]>([]);
+    const [tiposDisp, setTiposDisp] = useState<ITiposDispositivosGET[]>([]);
+    const [hasError, setHasError] = useState<boolean>(false);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [formData, setFormData] = useState<IAltaDispositivoI>({
+        idTipoDispositivo: 0,
+        serie: '',
+        marca: '',
+        modelo: '',
+        descripcionFalla: '',
+        idCliente: 0,
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const token = localStorage.getItem('token');
+    useEffect(() => {
+        const validateToken = async () => {
+            if (!token) {
+                setHasError(true); // No hay token
+                setIsLoading(false); // Detenemos la carga
+            } else {
+                const statusCode = await validaToken(token);
+
+                if (statusCode === 200) {
+                    setIsAuthenticated(true);
+                    const {
+                        statusCode,
+                        data: {clients},
+                    } = await consultaClientes(token);
+
+                    const {
+                        statusCode: statusTypes,
+                        data: {devicesTypes},
+                    } = await consultaTiposDispositivos(token);
+
+                    if (statusCode === 200) {
+                        setClientes(clients);
+                    }
+
+                    if (statusTypes === 200) {
+                        console.log(devicesTypes);
+                        setTiposDisp(devicesTypes);
+                    }
+                } else {
+                    localStorage.removeItem('token'); // Token inválido
+                    setHasError(true);
+                    navigate('/'); // Redirige si el token es inválido
+                }
+                setIsLoading(false); // Detenemos la carga tras la validación
+            }
+        };
+        // Validar el token inmediatamente
+        validateToken();
+
+        // Configurar el intervalo para validar cada minuto
+        const intervalId = setInterval(() => {
+            validateToken();
+        }, 60000); // 60000 ms = 1 minuto
+
+        // Limpiar el intervalo al desmontar el componente
+        return () => clearInterval(intervalId);
+    }, [navigate]);
+
+    if (isLoading) {
+        return <HeaderPage />;
+    }
+
+    if (hasError || !isAuthenticated) {
+        return <AuthError />;
+    }
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const {name, value} = e.target;
         setFormData({...formData, [name]: value});
+    };
+
+    const enviaData = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault(); // Prevenir que la página se recargue
+
+        const {statusCode, message} = await altaDispositivos(token || '', formData);
+        if (statusCode !== 200) {
+            setError(message);
+        } else {
+            navigate('/home');
+        }
     };
 
     return (
@@ -26,72 +106,67 @@ const AddDevice: React.FC = () => {
             <br></br>
             <div className="form-container">
                 <h2>Nuevo Equipo</h2>
-                <form>
+                {error && <div className="alert alert-danger">{error}</div>}
+                <form onSubmit={enviaData}>
+                    <label htmlFor="idCliente">Cliente</label>
+                    <select id="idCliente" name="idCliente" value={Number(formData.idCliente)} required onChange={handleChange}>
+                        <option value="">Seleccione</option>
+                        {clientes.map((cliente, index) => (
+                            <option key={index} value={Number(cliente.idUsuario)}>
+                                {cliente.nombre}
+                            </option>
+                        ))}
+                    </select>
+                    <br></br>
                     <label htmlFor="marca">Marca</label>
-                    <input type="text" id="marca" name="marca" value={formData.marca} onChange={handleChange} />
+                    <input type="text" id="marca" name="marca" value={formData.marca} required onChange={handleChange} />
 
                     <label htmlFor="modelo">Modelo</label>
-                    <input type="text" id="modelo" name="modelo" value={formData.modelo} onChange={handleChange} />
+                    <input type="text" id="modelo" name="modelo" value={formData.modelo} required onChange={handleChange} />
 
-                    <label htmlFor="año">Año</label>
-                    <input type="text" id="año" name="año" value={formData.año} onChange={handleChange} />
+                    <label htmlFor="serie">Serie</label>
+                        
+                        <input type="text" id="serie" name="serie" value={formData.serie} required onChange={handleChange} />
 
-                    <label htmlFor="sistemaOperativo">Sistema Operativo</label>
-                    <input
-                        type="text"
-                        id="sistemaOperativo"
-                        name="sistemaOperativo"
-                        value={formData.sistemaOperativo}
+                    <label htmlFor="idTipoDispositivo">Tipo de dispositivo</label>
+                    <select
+                        id="idTipoDispositivo"
+                        name="idTipoDispositivo"
+                        required
+                        value={formData.idTipoDispositivo}
                         onChange={handleChange}
-                    />
-
-                    <label htmlFor="descripcion">Descripción del problema</label>
+                    >
+                        <option value="">Seleccione</option>
+                        {tiposDisp.map((cliente, index) => (
+                            <option key={index} value={cliente.idTipo}>
+                                {cliente.descripcion}
+                            </option>
+                        ))}
+                    </select>
+                    <br></br>
+                    <label htmlFor="descripcionFalla">Descripción del problema</label>
                     <textarea
-                        id="descripcion"
-                        name="descripcion"
-                        value={formData.descripcion}
+                        id="descripcionFalla"
+                        name="descripcionFalla"
+                        value={formData.descripcionFalla}
+                        required
                         onChange={handleChange}
                     ></textarea>
-
-                    <h3>Cliente</h3>
-
-                    <label htmlFor="nombreCliente">Nombre</label>
-                    <input
-                        type="text"
-                        id="nombreCliente"
-                        name="nombreCliente"
-                        value={formData.nombreCliente}
+                    <label htmlFor="descripcionVisual">Descripción visual</label>
+                    <textarea
+                        id="descripcionVisual"
+                        name="descripcionVisual"
+                        value={formData.descripcionVisual}
                         onChange={handleChange}
-                    />
-
-                    <label htmlFor="correo">Correo Electrónico</label>
-                    <input type="email" id="correo" name="correo" value={formData.correo} onChange={handleChange} />
-
-                    <div className="form-row">
-                        <div className="form-group">
-                            <label htmlFor="telefono">Teléfono</label>
-                            <input
-                                type="text"
-                                id="telefono"
-                                name="telefono"
-                                value={formData.telefono}
-                                onChange={handleChange}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="celular">Celular</label>
-                            <input
-                                type="text"
-                                id="celular"
-                                name="celular"
-                                value={formData.celular}
-                                onChange={handleChange}
-                            />
-                        </div>
-                    </div>
+                    ></textarea>
+                    <center>
+                        <button type="submit" className="btn btn-primary btn-block">
+                            Registrar
+                        </button>
+                    </center>
                 </form>
             </div>
+            <Footer />
         </>
     );
 };

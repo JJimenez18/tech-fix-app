@@ -61,7 +61,7 @@ export const HeaderPage: React.FC = () => {
                             Orden de trabajo
                         </a>
                     </li>
-                    <li>
+                    {/* <li>
                         <a href="#workspace">Workspace</a>
                     </li>
                     <li>
@@ -69,7 +69,7 @@ export const HeaderPage: React.FC = () => {
                     </li>
                     <li>
                         <a href="#model">Model</a>
-                    </li>
+                    </li> */}
                     <li>
                         <a href="#docs">Contáctanos</a>
                     </li>

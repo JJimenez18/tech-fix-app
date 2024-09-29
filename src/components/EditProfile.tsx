@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import '../css/editProfile.css'; // Asegúrate de agregar los estilos CSS aquí
-import { HeaderPage } from './Headers';
+import {HeaderPage} from './Headers';
+import Footer from './Footer';
 
 const EditProfile: React.FC = () => {
     const [profile, setProfile] = useState({
@@ -118,6 +119,7 @@ const EditProfile: React.FC = () => {
                     <button type="submit">Save</button>
                 </form>
             </div>
+            <Footer />
         </div>
     );
 };

@@ -1,0 +1,40 @@
+.footer-container {
+    background-color: #f8f9fa; /* Un gris claro, puedes ajustarlo según el diseño */
+    padding: 20px 0;
+    text-align: center;
+    border-top: 1px solid #ddd; /* Añadir una línea en la parte superior */
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-content {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.footer-content p {
+    margin: 0;
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.footer-links {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.footer-links li {
+    display: inline;
+    margin-right: 15px;
+}
+
+.footer-links li a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.footer-links li a:hover {
+    text-decoration: underline;
+}
