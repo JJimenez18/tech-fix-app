@@ -18,7 +18,7 @@ const Login: React.FC<LoginProps> = ({onLogin}) => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const basicAuthToken = btoa(`${email}:${password}`);
-        const {data, statusCode} = await ejecutaPeticion<{token: string}>({
+        const {data, statusCode} = await ejecutaPeticion<{token: string, idTipoUsuario: number}>({
             url: 'http://localhost:8888/microservices/techfix-tracker/v1/oauth2/v1/token',
             metodo: 'post',
             headers: {
@@ -27,6 +27,7 @@ const Login: React.FC<LoginProps> = ({onLogin}) => {
         });
         if (statusCode === 200) {
             localStorage.setItem('token', data.token);
+            localStorage.setItem('idTipoUsuario', `${data.idTipoUsuario}`);
             onLogin(email, password);
             navigate('/home');
         } else {
@@ -77,6 +78,7 @@ const Login: React.FC<LoginProps> = ({onLogin}) => {
                                     />
                                 </div>
                                 <h3 className="text-center mb-3">Tech-Fix</h3>
+                                <h4 className="text-center mb-3">Gestiona tus reparaciones</h4>
                                 {error && <div className="alert alert-danger">{error}</div>}
                                 <form onSubmit={handleSubmit}>
                                     <div className="form-group mb-3">

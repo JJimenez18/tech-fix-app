@@ -1,11 +1,12 @@
 .footer-container {
+    position: fixed; /* Mantiene el footer fijo */
     background-color: #f8f9fa; /* Un gris claro, puedes ajustarlo según el diseño */
     padding: 20px 0;
     text-align: center;
     border-top: 1px solid #ddd; /* Añadir una línea en la parte superior */
-    position: relative;
     bottom: 0;
     width: 100%;
+    z-index: 1000; /* Asegura que esté encima del contenido */
 }
 
 .footer-content {

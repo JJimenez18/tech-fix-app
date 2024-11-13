@@ -38,7 +38,12 @@ textarea {
 
 textarea {
     resize: none;
-    height: 80px;
+    height: 90px;
+}
+
+.add-body {
+    padding-top: 60px; /* Ajusta según la altura real del header */
+    padding-bottom: 80px; /* Ajusta según la altura real del footer */
 }
 
 .form-row {
@@ -56,7 +61,7 @@ textarea {
 
 input[type='text'],
 input[type='email'] {
-    width: 100%;
+    width: 95%;
 }
 
 h3 {

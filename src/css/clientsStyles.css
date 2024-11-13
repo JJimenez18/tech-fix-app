@@ -17,6 +17,11 @@ p {
     color: #555;
 }
 
+.body-client {
+    padding-top: 40px;
+    padding-bottom: 80px;
+}
+
 /* Top Navigation */
 .top-nav {
     display: flex;

@@ -116,89 +116,91 @@ const Clients: React.FC = () => {
         <div>
             <HeaderPage />
             <br></br>
-            <div className="form-container">
-                <h2 onClick={() => setIsOpen(!isOpen)} style={{cursor: 'pointer'}}>
-                    Alta Clientes {isOpen ? '▲' : '▼'}
-                </h2>
-                {error && <div className="alert alert-danger">{error}</div>}
-                {isOpen && (
-                    <div className="form-content">
-                        {error && <div className="alert alert-danger">{error}</div>}
-                        <form onSubmit={enviaData}>
-                            <label htmlFor="nombre">Nombre completo</label>
-                            <input
-                                type="text"
-                                id="nombre"
-                                name="nombre"
-                                value={formData.nombre}
-                                required
-                                onChange={handleChange}
-                            />
+            <div className="body-client">
+                <div className="form-container">
+                    <h2 onClick={() => setIsOpen(!isOpen)} style={{cursor: 'pointer'}}>
+                        Alta Clientes {isOpen ? '▲' : '▼'}
+                    </h2>
+                    {error && <div className="alert alert-danger">{error}</div>}
+                    {isOpen && (
+                        <div className="form-content">
+                            {error && <div className="alert alert-danger">{error}</div>}
+                            <form onSubmit={enviaData}>
+                                <label htmlFor="nombre">Nombre completo</label>
+                                <input
+                                    type="text"
+                                    id="nombre"
+                                    name="nombre"
+                                    value={formData.nombre}
+                                    required
+                                    onChange={handleChange}
+                                />
 
-                            <label htmlFor="telefono">Teléfono</label>
-                            <input
-                                type="text"
-                                id="telefono"
-                                name="telefono"
-                                value={formData.telefono}
-                                required
-                                onChange={handleChange}
-                            />
-                            <center>
-                                <button type="submit" className="btn btn-primary btn-block">
-                                    Registrar
-                                </button>
-                            </center>
-                        </form>
-                    </div>
-                )}
-            </div>
-
-            <div className="dashboard-container" style={{width: '1000px'}}>
-                <h2>Clientes</h2>
-                <b>Total clientes: </b>
-                {clientes.length}
-
-                {/* Search Input */}
-                <div className="search-container">
-                    <p>Buscar cliente: </p>
-                    <input
-                        type="text"
-                        placeholder="🔍"
-                        className="search-input"
-                        value={searchTerm}
-                        onChange={handleSearchChange}
-                    />
+                                <label htmlFor="telefono">Teléfono</label>
+                                <input
+                                    type="text"
+                                    id="telefono"
+                                    name="telefono"
+                                    value={formData.telefono}
+                                    required
+                                    onChange={handleChange}
+                                />
+                                <center>
+                                    <button type="submit" className="btn btn-primary btn-block">
+                                        Registrar
+                                    </button>
+                                </center>
+                            </form>
+                        </div>
+                    )}
                 </div>
 
-                {/* Table */}
-                <table className="custom-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Telefono</th>
-                            <th>Registro</th>
-                            {/* <th>Direcciones</th> */}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredClients.length > 0 ? (
-                            filteredClients.map((patient) => (
-                                <tr key={patient.idUsuario}>
-                                    <td>{patient.idUsuario}</td>
-                                    <td>{patient.nombre}</td>
-                                    <td>{patient.telefono}</td>
-                                    <td>{patient.fechaRegistro}</td>
-                                </tr>
-                            ))
-                        ) : (
+                <div className="dashboard-container" style={{width: '1000px'}}>
+                    <h2>Clientes</h2>
+                    <b>Total clientes: </b>
+                    {clientes.length}
+
+                    {/* Search Input */}
+                    <div className="search-container">
+                        <p>Buscar cliente: </p>
+                        <input
+                            type="text"
+                            placeholder="🔍"
+                            className="search-input"
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                        />
+                    </div>
+
+                    {/* Table */}
+                    <table className="custom-table">
+                        <thead>
                             <tr>
-                                <td colSpan={8}>No se encontraron resultados</td>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Telefono</th>
+                                <th>Registro</th>
+                                {/* <th>Direcciones</th> */}
                             </tr>
-                        )}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {filteredClients.length > 0 ? (
+                                filteredClients.map((patient) => (
+                                    <tr key={patient.idUsuario}>
+                                        <td>{patient.idUsuario}</td>
+                                        <td>{patient.nombre}</td>
+                                        <td>{patient.telefono}</td>
+                                        <td>{new Date(patient.fechaRegistro).toLocaleDateString()}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={8}>No se encontraron resultados</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <Footer />
         </div>

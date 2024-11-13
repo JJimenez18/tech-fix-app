@@ -5,6 +5,8 @@ import JobsPage from './components/Home';
 import Clients from './components/Clients';
 import AddDevice from './components/AddDeviceForm';
 import EditProfile from './components/EditProfile';
+import DeviceDetails from './components/DeviceDetails';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const App = () => {
   return (
@@ -12,6 +14,7 @@ const App = () => {
       <Route path="/" element={<Login onLogin={(email, password) => console.log(email, password)} />} />
       <Route path="/home" element={<JobsPage />} />
       <Route path="/addDevice" element={<AddDevice />} />
+      <Route path="/details/device/:idDevice" element={<DeviceDetails/>} />
       <Route path="/clients" element={<Clients />} />
       <Route path="/register" element={<Register />} />
       <Route path="/editProfile" element={<EditProfile />} />

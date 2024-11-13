@@ -1,13 +1,51 @@
-.user-profile {
-    position: relative;
-    display: inline-block;
+/* Estilo general para el header */
+.top-nav {
+    position: fixed; /* Fija el header en la parte superior */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333; /* Color de fondo oscuro */
+    color: white; /* Texto blanco para visibilidad */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    z-index: 1000; /* Asegura que esté sobre el contenido */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
 }
 
-.user-icon {
-    cursor: pointer;
-    font-size: 24px;
+/* Estilo del logo */
+.logo {
+    font-size: 24px; /* Aumenta el tamaño del texto */
+    font-weight: 700; /* Negrita para mejorar legibilidad */
+    color: #ffffff; /* Texto blanco para visibilidad */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra para mejorar la legibilidad */
 }
 
+/* Estilo de la lista de navegación */
+.menu {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.menu li a {
+    color: #000000; /* Color negro para el texto de los enlaces */
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.menu li a:hover {
+    text-decoration: underline;
+}
+
+/* Ajuste del ícono de usuario */
+.user-icon i {
+    font-size: 24px; /* Tamaño del ícono */
+    color: #ffffff; /* Asegura que el ícono sea visible en un fondo oscuro */
+}
+
+/* Estilo del menú desplegable */
 .dropdown-menu {
     position: absolute;
     top: 40px;
@@ -35,4 +73,9 @@
 
 .dropdown-menu button:focus {
     outline: none;
+}
+
+/* Ajuste para que el contenido no quede oculto bajo el header fijo */
+.content {
+    margin-top: 70px; /* Ajusta este valor según la altura del header */
 }

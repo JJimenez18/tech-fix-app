@@ -92,79 +92,107 @@ const AddDevice: React.FC = () => {
     const enviaData = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // Prevenir que la página se recargue
 
-        const {statusCode, message} = await altaDispositivos(token || '', formData);
+        const {statusCode, message,data } = await altaDispositivos(token || '', formData);
         if (statusCode !== 200) {
             setError(message);
         } else {
-            navigate('/home');
+            navigate(`/details/device/${data.uuid}`);
         }
     };
 
     return (
         <>
             <HeaderPage />
-            <br></br>
-            <div className="form-container">
-                <h2>Nuevo Equipo</h2>
-                {error && <div className="alert alert-danger">{error}</div>}
-                <form onSubmit={enviaData}>
-                    <label htmlFor="idCliente">Cliente</label>
-                    <select id="idCliente" name="idCliente" value={Number(formData.idCliente)} required onChange={handleChange}>
-                        <option value="">Seleccione</option>
-                        {clientes.map((cliente, index) => (
-                            <option key={index} value={Number(cliente.idUsuario)}>
-                                {cliente.nombre}
-                            </option>
-                        ))}
-                    </select>
-                    <br></br>
-                    <label htmlFor="marca">Marca</label>
-                    <input type="text" id="marca" name="marca" value={formData.marca} required onChange={handleChange} />
+            <div className="add-body">
+                <div className="form-container">
+                    <h2>Nuevo Equipo</h2>
+                    {error && <div className="alert alert-danger">{error}</div>}
+                    <form onSubmit={enviaData}>
+                        <label htmlFor="idCliente">Cliente</label>
+                        <select
+                            id="idCliente"
+                            name="idCliente"
+                            value={Number(formData.idCliente)}
+                            required
+                            onChange={handleChange}
+                        >
+                            <option value="">Seleccione</option>
+                            {clientes.map((cliente, index) => (
+                                <option key={index} value={Number(cliente.idUsuario)}>
+                                    {cliente.nombre}
+                                </option>
+                            ))}
+                        </select>
+                        <br></br>
+                        <label htmlFor="marca">Marca</label>
+                        <input
+                            type="text"
+                            id="marca"
+                            name="marca"
+                            value={formData.marca}
+                            required
+                            onChange={handleChange}
+                        />
 
-                    <label htmlFor="modelo">Modelo</label>
-                    <input type="text" id="modelo" name="modelo" value={formData.modelo} required onChange={handleChange} />
+                        <label htmlFor="modelo">Modelo</label>
+                        <input
+                            type="text"
+                            id="modelo"
+                            name="modelo"
+                            value={formData.modelo}
+                            required
+                            onChange={handleChange}
+                        />
 
-                    <label htmlFor="serie">Serie</label>
-                        
-                        <input type="text" id="serie" name="serie" value={formData.serie} required onChange={handleChange} />
+                        <label htmlFor="serie">Serie</label>
 
-                    <label htmlFor="idTipoDispositivo">Tipo de dispositivo</label>
-                    <select
-                        id="idTipoDispositivo"
-                        name="idTipoDispositivo"
-                        required
-                        value={formData.idTipoDispositivo}
-                        onChange={handleChange}
-                    >
-                        <option value="">Seleccione</option>
-                        {tiposDisp.map((cliente, index) => (
-                            <option key={index} value={cliente.idTipo}>
-                                {cliente.descripcion}
-                            </option>
-                        ))}
-                    </select>
-                    <br></br>
-                    <label htmlFor="descripcionFalla">Descripción del problema</label>
-                    <textarea
-                        id="descripcionFalla"
-                        name="descripcionFalla"
-                        value={formData.descripcionFalla}
-                        required
-                        onChange={handleChange}
-                    ></textarea>
-                    <label htmlFor="descripcionVisual">Descripción visual</label>
-                    <textarea
-                        id="descripcionVisual"
-                        name="descripcionVisual"
-                        value={formData.descripcionVisual}
-                        onChange={handleChange}
-                    ></textarea>
-                    <center>
-                        <button type="submit" className="btn btn-primary btn-block">
-                            Registrar
-                        </button>
-                    </center>
-                </form>
+                        <input
+                            type="text"
+                            id="serie"
+                            name="serie"
+                            value={formData.serie}
+                            required
+                            onChange={handleChange}
+                        />
+
+                        <label htmlFor="idTipoDispositivo">Tipo de dispositivo</label>
+                        <select
+                            id="idTipoDispositivo"
+                            name="idTipoDispositivo"
+                            required
+                            value={formData.idTipoDispositivo}
+                            onChange={handleChange}
+                        >
+                            <option value="">Seleccione</option>
+                            {tiposDisp.map((cliente, index) => (
+                                <option key={index} value={cliente.idTipo}>
+                                    {cliente.descripcion}
+                                </option>
+                            ))}
+                        </select>
+                        <br></br>
+                        <label htmlFor="descripcionFalla">Descripción del problema</label>
+                        <textarea
+                            id="descripcionFalla"
+                            name="descripcionFalla"
+                            value={formData.descripcionFalla}
+                            required
+                            onChange={handleChange}
+                        ></textarea>
+                        <label htmlFor="descripcionVisual">Descripción visual</label>
+                        <textarea
+                            id="descripcionVisual"
+                            name="descripcionVisual"
+                            value={formData.descripcionVisual}
+                            onChange={handleChange}
+                        ></textarea>
+                        <center>
+                            <button type="submit" className="btn btn-primary btn-block">
+                                Registrar
+                            </button>
+                        </center>
+                    </form>
+                </div>
             </div>
             <Footer />
         </>

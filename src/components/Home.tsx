@@ -6,7 +6,7 @@ import AuthError from './AuthError';
 import {IConsultaDispositivosGET} from '../models/device';
 import {validaToken} from '../services/security.services';
 import Footer from './Footer';
-import { consultaDispositivos } from '../services/device.services';
+import {consultaDispositivos} from '../services/device.services';
 
 const JobsDashboard: React.FC = () => {
     const navigate = useNavigate();
@@ -30,7 +30,7 @@ const JobsDashboard: React.FC = () => {
                     const {
                         statusCode,
                         data: {devices},
-                    } = await consultaDispositivos(token)
+                    } = await consultaDispositivos(token);
 
                     if (statusCode === 200) {
                         console.log(devices);
@@ -86,84 +86,88 @@ const JobsDashboard: React.FC = () => {
         <div>
             <HeaderPage />
             <br></br>
-            <div className="dashboard-container" style={{width: '1000px'}}>
-                <h2>Ordenes de trabajo</h2>
-                <p>Revisa y administra las ordenes de trabajo</p>
+            <div className="home-body">
+                <div className="dashboard-container" style={{width: '1000px'}}>
+                    <h2>Ordenes de trabajo</h2>
+                    <p>Revisa y administra las ordenes de trabajo</p>
 
-                {/* Search Input */}
-                <div className="search-container">
-                    <input
-                        type="text"
-                        placeholder="🔍 Buscar Orden"
-                        className="search-input"
-                        value={searchTerm}
-                        onChange={handleSearchChange}
-                    />
-                </div>
+                    {/* Search Input */}
+                    <div className="search-container">
+                        <input
+                            type="text"
+                            placeholder="🔍 Buscar Orden"
+                            className="search-input"
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                        />
+                    </div>
 
-                {/* Navigation tabs */}
-                <ul className="tabs">
-                    <li className="tab active">Pendiente</li>
-                    <li className="tab">En diagnostico</li>
-                    <li className="tab">Diagnosticada</li>
-                    <li className="tab">Reparada</li>
-                    <li className="tab">Entregada</li>
-                </ul>
+                    {/* Navigation tabs */}
+                    <ul className="tabs">
+                        <li className="tab active">Pendiente</li>
+                        <li className="tab">En diagnostico</li>
+                        <li className="tab">Diagnosticada</li>
+                        <li className="tab">Reparada</li>
+                        <li className="tab">Entregada</li>
+                    </ul>
 
-                {/* Table */}
-                <table className="custom-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Tipo</th>
-                            <th>Modelo</th>
-                            <th>Serie</th>
-                            <th>Falla</th>
-                            <th>Cliente</th>
-                            <th>Fecha</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredDevices.length > 0 ? (
-                            filteredDevices.map((job) => (
-                                <tr key={job.idDispositivo}>
-                                    <td>
-                                        <a href={`#job/${job.idDispositivo}`}>#{job.idDispositivo}</a>
-                                    </td>
-                                    <td>{job.idTipoDispositivo}</td>
-                                    <td>
-                                        {job.modelo}
-                                        {/* <span
+                    {/* Table */}
+                    <table className="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Folio</th>
+                                <th>Tipo</th>
+                                <th>Modelo</th>
+                                <th>Serie</th>
+                                <th>Falla</th>
+                                <th>Cliente</th>
+                                <th>Fecha</th>
+                                <th>Editar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredDevices.length > 0 ? (
+                                filteredDevices.map((job) => (
+                                    <tr key={job.idDispositivo}>
+                                        <td>
+                                            <a href={`/details/device/${job.idDispositivo}`}>
+                                                {`${job.idDispositivo}`.substring(0, 3)}
+                                            </a>
+                                        </td>
+                                        <td>{job.descTipoDispositivo}</td>
+                                        <td>
+                                            {job.modelo}
+                                            {/* <span
                                         className={`badge ${job.idDispositivo === 'In Progress' ? 'badge-in-progress' : ''}`}
                                     >
                                         {job.modelo}
                                     </span> */}
-                                    </td>
-                                    <td>
-                                        {/* <div className="progress">
+                                        </td>
+                                        <td>
+                                            {/* <div className="progress">
                                         <div className="progress-bar" style={{width: `${job.progress}%`}}>
                                             {job.progress}%
                                         </div>
                                     </div> */}
-                                        {job.serie}
-                                    </td>
-                                    <td>{job.descripcionFalla}</td>
-                                    <td>{job.nombreUsuario}</td>
-                                    <td>{job.fechaRegistro}</td>
-                                    <td>{job.idEstatusDispositivo}</td>
-                                    {/* <td>
+                                            {job.serie}
+                                        </td>
+                                        <td>{job.descripcionFalla}</td>
+                                        <td>{job.nombreCliente}</td>
+                                        <td>{new Date(job.fechaRegistro).toLocaleDateString()}</td>
+                                        <td>{job.idEstatusDispositivo}</td>
+                                        {/* <td>
                                     <button className="btn">Pause</button>
                                 </td> */}
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={8}>No se encontraron resultados</td>
                                 </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan={8}>No se encontraron resultados</td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <Footer />
         </div>

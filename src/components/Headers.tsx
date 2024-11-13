@@ -1,22 +1,15 @@
 import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import '../css/userProfile.css'
+import '../css/userProfile.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 export const HeaderPage: React.FC = () => {
     const navigate = useNavigate();
-
-    const redirectToClients = () => {
-        return navigate('/clients');
-    };
-
-    const redirectToHome = () => {
-        return navigate('/home');
-    };
-
-    const redirectToAddDevice = () => {
-        return navigate('/addDevice');
-    };
     const [menuOpen, setMenuOpen] = useState(false);
+
+    const redirectTo = (url: string) => {
+        navigate(url);
+    };
 
     // Función para alternar el menú
     const toggleMenu = () => {
@@ -30,14 +23,6 @@ export const HeaderPage: React.FC = () => {
         return navigate('/');
     };
 
-    // Función para editar perfil
-    const handleEditProfile = () => {
-        // Aquí podrías agregar la lógica para redirigir a la edición de perfil
-        console.log('Editar perfil');
-        return navigate('/editProfile');
-
-    };
-
     return (
         /**
          * Top Navigation Menu
@@ -47,42 +32,27 @@ export const HeaderPage: React.FC = () => {
             <nav>
                 <ul className="menu">
                     <li>
-                        <a href="#data-catalog" onClick={redirectToHome}>
-                            Principal
-                        </a>
+                        <a onClick={() => redirectTo('/home')}>Principal</a>
                     </li>
                     <li>
-                        <a href="#data-catalog" onClick={redirectToClients}>
-                            Clientes
-                        </a>
+                        <a onClick={() => redirectTo('/clients')}>Clientes</a>
                     </li>
                     <li>
-                        <a href="#jobs" onClick={redirectToAddDevice}>
-                            Orden de trabajo
-                        </a>
-                    </li>
-                    {/* <li>
-                        <a href="#workspace">Workspace</a>
+                        <a onClick={() => redirectTo('/addDevice')}>Orden de trabajo</a>
                     </li>
                     <li>
-                        <a href="#api">API</a>
-                    </li>
-                    <li>
-                        <a href="#model">Model</a>
-                    </li> */}
-                    <li>
-                        <a href="#docs">Contáctanos</a>
+                        <a>Contáctanos</a>
                     </li>
                 </ul>
             </nav>
             <div className="user-profile">
                 <span className="user-icon" onClick={toggleMenu}>
-                    👤
+                    <i className="fas fa-user"></i> {/* Ícono de usuario usando Font Awesome */}
                 </span>
 
                 {menuOpen && (
                     <div className="dropdown-menu">
-                        <button onClick={handleEditProfile}>Editar Perfil</button>
+                        <button onClick={() => redirectTo('/editProfile')}>Editar Perfil</button>
                         <button onClick={handleLogout}>Cerrar Sesión</button>
                     </div>
                 )}

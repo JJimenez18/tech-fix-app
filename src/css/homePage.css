@@ -7,6 +7,10 @@
   font-family: Arial, sans-serif;
 }
 
+body {
+  padding-top: 30px; /* Ajusta según la altura real del header */
+}
+
 h2 {
   font-size: 24px;
   margin-bottom: 10px;
@@ -31,6 +35,12 @@ p {
   font-size: 20px;
   font-weight: bold;
 }
+
+.home-body {
+  padding-top: 10px; /* Ajusta según la altura real del header */
+  padding-bottom: 60px; /* Ajusta según la altura real del footer */
+}
+
 
 .menu {
   display: flex;
